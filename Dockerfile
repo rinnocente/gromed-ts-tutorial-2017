@@ -50,7 +50,7 @@ RUN apt install -yq vim \
 #
 # we create the user 'gromed' and add it to the list of sudoers
 RUN  adduser -q --disabled-password --gecos gromed gromed  \
-	&& echo "gromed 	NOPASSWD:ALL ALL=(ALL:ALL) ALL" >>/etc/sudoers  \
+	&& echo "gromed ALL=(ALL:ALL) NOPASSWD:ALL" >>/etc/sudoers  \
 	&& (echo "gromed:mammamia"|chpasswd)
 #
 # disable  ssh strict mode
