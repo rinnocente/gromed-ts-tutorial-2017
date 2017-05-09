@@ -28,6 +28,7 @@ RUN apt install -yq vim \
 		g++ \
 		gnuplot \
 		xxdiff \
+		gawk \
          	libopenblas-base  \
          	libopenblas-dev  \
  		openmpi-bin   \
