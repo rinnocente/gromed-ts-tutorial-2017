@@ -4,7 +4,7 @@
 # For many reasons we need to fix the ubuntu release:
 FROM ubuntu:17.04
 #
-MAINTAINER roberto innocente <inno@sissa.it>, giovanni bussi <bussi@sissa.it>
+MAINTAINER roberto innocente <inno@sissa.it>
 #
 #
 ARG DEBIAN_FRONTEND=noninteractive
@@ -61,25 +61,28 @@ RUN sed -i 's#^StrictModes.*#StrictModes no#' /etc/ssh/sshd_config \
 # download and compile sources.
 #
 WORKDIR /home/gromed
+ENV     GR_HD="/home/gromed" \
+   	GR_VER="-2016.3"  \
+   	PL_VER="-2.3.1"  
 #
 # First : setup PLUMED
 #
-RUN wget http://people.sissa.it/~inno/plumed-2.3.1.tgz  \
-	&& tar xfz plumed-2.3.1.tgz \
-	&& cd /home/gromed/plumed-2.3.1 \
-	&& echo 'export plumedir="/home/gromed/plumed-2.3.1"' >>/home/gromed/.bashrc \
-	&& echo 'export PLUMED_ROOT="/home/gromed/plumed-2.3.1"' >>/home/gromed/.bashrc \
-	&& echo 'export PLUMED_PREFIX="/home/gromed/plumed-2.3.1"' >>/home/gromed/.bashrc \
+RUN 	wget http://people.sissa.it/~inno/plumed${PL_VER}.tgz  \
+	&& tar xfz plumed${PL_VER}.tgz \
+	&& cd ${GR_HD}/plumed${PL_VER} \
+	&& echo export plumedir="${GR_HD}/plumed${PL_VER}" >>${GR_HD}/.bashrc \
+	&& echo export PLUMED_ROOT="${GR_HD}/plumed${PL_VER}" >>${GR_HD}/.bashrc \
+	&& echo export PLUMED_PREFIX="${GR_HD}/plumed${PL_VER}" >>${GR_HD}/.bashrc \
 	&& ./configure \
 	&& source sourceme.sh ; make ; make install
 
 #
 # Second : setup GROMACS
 #
-RUN wget http://ftp.gromacs.org/pub/gromacs/gromacs-2016.3.tar.gz \
-	&& tar xfz gromacs-2016.3.tar.gz \
-	&& cd gromacs-2016.3  \
-	&& plumed patch -p -e gromacs-2016.3 \
+RUN 	wget http://ftp.gromacs.org/pub/gromacs/gromacs${GR_VER}.tar.gz \
+	&& tar xfz gromacs${GR_VER}.tar.gz \
+	&& cd gromacs${GR_VER}  \
+	&& plumed patch -p -e gromacs${GR_VER} \
 	&& GR_SIMD="None SSE2 SSE4.1 AVX_256 AVX2_256 AVX_512" \
 	&& GR_CORES=`cat /proc/cpuinfo |grep 'cpu cores'|uniq|sed -e 's/.*://'` \
 	&& for item in $GR_SIMD; do \
@@ -87,29 +90,25 @@ RUN wget http://ftp.gromacs.org/pub/gromacs/gromacs-2016.3.tar.gz \
 		(cd build-"$item"; cmake ..  -DGMX_SIMD="$item" ; make -j $GR_CORES ); \
 	   done \
 	&&  (cd build-SSE2; make install) \
-	&&  echo "export PATH=/usr/local/gromacs/bin:${PATH}" >>/home/gromed/.bashrc \
-	&&  echo "source /usr/local/gromacs/bin/GMXRC" >>/home/gromed/.bashrc
+	&&  echo "export PATH=/usr/local/gromacs/bin:${PATH}" >>${GR_HD}/.bashrc \
+	&&  echo "source /usr/local/gromacs/bin/GMXRC" >>${GR_HD}/.bashrc
 
 #
 # move tarballs in downloads/ directory
 #
 RUN    	mkdir downloads \
-	&& mv gromacs-2016.3.tar.gz plumed-2.3.1.tgz downloads/
+	&& mv gromacs${GR_VER}.tar.gz plumed${PL_VER}.tgz downloads/
 #
-# get from github and copy tuning script inside gromacs directory
-#
-RUN	wget 	https://raw.githubusercontent.com/rinnocente/gromed/edits/tune-gromacs.sh \
-	&& mv tune-gromacs.sh gromacs-2016.3/
-
+COPY	tune-gromacs.sh ${GR_HD}/gromacs${GR_VER}/
 #
 # change owner to gromed:gromed
 #
 RUN	chown -R gromed:gromed /home/gromed
-
+#
 WORKDIR /home/gromed
-
+#
 EXPOSE 22
-
+#
 #
 # the container can be now reached via ssh
 CMD [ "/usr/sbin/sshd","-D" ]
