@@ -9,7 +9,7 @@ MAINTAINER roberto innocente <inno@sissa.it>
 #
 ARG DEBIAN_FRONTEND=noninteractive
 #
-ARG TRAVIS=false
+ARG GR_SIMD="None SSE2 SSE4.1 AVX_256 AVX2_256 AVX_512"
 #
 # we update the apt database
 #
@@ -88,8 +88,6 @@ RUN 	wget http://ftp.gromacs.org/pub/gromacs/gromacs${GR_VER}.tar.gz \
 	&& tar xfz gromacs${GR_VER}.tar.gz \
 	&& cd gromacs${GR_VER}  \
 	&& plumed patch -p -e gromacs${GR_VER} \
-        && GR_SIMD="None SSE2 SSE4.1 AVX_256 AVX2_256 AVX_512" \
-        && if [ "$TRAVIS" = true ] ; then GR_SIMD="SSE2" ; fi \
 	&& GR_CORES=`cat /proc/cpuinfo |grep 'cpu cores'|uniq|sed -e 's/.*://'` \
 	&& for item in $GR_SIMD; do \
 		mkdir -p build-"$item" ; \
