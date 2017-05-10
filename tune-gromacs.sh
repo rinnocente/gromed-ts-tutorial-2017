@@ -15,7 +15,7 @@ rm $tmpfile
 # 
 # SIMD compile flags supported by gromacs
 #
-declare -a  gromacs_flags_list=(None None SSE2 SSE2 SSE2 SSE2 SSE4.1 SSE4.1 SSE4.1 AVX_256 AVX2_256 AVX_512 AVX_512_KNL MIC Reference)
+declare -a  gromacs_flags_list=(None None SSE2 SSE2 SSE2 SSE2 SSE4.1 SSE4.1 SSE4.1 AVX_256 AVX2_256 AVX_512)
 array_len=${#intel_cpu_flags_list[@]}
 for (( i=1; i<${array_len}+1; i++ ));
 do
