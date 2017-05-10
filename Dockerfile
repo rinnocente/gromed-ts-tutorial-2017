@@ -9,7 +9,9 @@ MAINTAINER roberto innocente <inno@sissa.it>
 #
 ARG DEBIAN_FRONTEND=noninteractive
 #
-ARG GR_SIMD="None SSE2 SSE4.1 AVX_256 AVX2_256 AVX_512"
+# gromacs-5.1.4 gets crazy with AVX_512 flag, removed
+#ARG GR_SIMD="None SSE2 SSE4.1 AVX_256 AVX2_256 AVX_512"
+ARG GR_SIMD="None SSE2 SSE4.1 AVX_256 AVX2_256"
 #
 # we update the apt database
 #
