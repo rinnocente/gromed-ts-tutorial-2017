@@ -12,8 +12,10 @@ $ docker run -u gromed -it rinnocente/gromed-ts-tutorial-2017 /bin/bash
 ```
 
 2. Locally or remotely via ssh
-```  ```
-If you want to use X from the container(gnuplot), or you want to share it with colleagues or you
+```  
+
+```
+If you want to use X from the container(gnuplot or vmd), or you want to share it with colleagues or you
 want to access it directly via the net then you need to start the
 container with the ssh-server and map its port on a port on your host.
 ```
@@ -29,7 +31,7 @@ Change the password, that initially is set to *mammamia* , with the **passwd** c
 
 ### Use of vector instruction sets (SIMD)
 Different binaries and libraries have been compiled for some of the SIMD instruction sets :
-** None SSE2 SSE4.1 AVX_256 AVX2_256 AVX_512 ** each in different build subdirs of gromacs-2016.3.
+**None SSE2 SSE4.1 AVX_256 AVX2_256 AVX_512** each in different build subdirs of gromacs-2016.3.
 By default the binary and libraries compiled with SSE2, that should be supported by now by everything,
 has been installed.
 A script can eventually install a more performant version automatically :
@@ -39,14 +41,12 @@ bash tune-gromacs.sh
 ```
 this script uses sudo and therefore the password is required.
 
-### Tree of directories in the gromed user dir :
+### Tree of directories in /home/gromed :
 
-
-Tree of 2 levels of contents :
 ```
 .
 |-- downloads
-|-- gromacs-2016.3
+|-- gromacs-5.1.4
 |   |-- admin
 |   |-- build-AVX2_256
 |   |-- build-AVX_256
@@ -60,7 +60,7 @@ Tree of 2 levels of contents :
 |   |-- share
 |   |-- src
 |   `-- tests
-`-- plumed-2.3.1
+`-- plumed2
     |-- CHANGES
     |-- developer-doc
     |-- include
