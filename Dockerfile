@@ -67,29 +67,29 @@ RUN sed -i 's#^StrictModes.*#StrictModes no#' /etc/ssh/sshd_config \
 #
 # download and compile sources.
 #
-WORKDIR /home/gromed
 ENV     GR_HD="/home/gromed" \
    	GR_VER="-5.1.4" \
    	PL_VER="master"  
+#
+WORKDIR "$GR_HD"
 #
 # First : setup PLUMED
 #
 RUN     GR_CORES=`cat /proc/cpuinfo |grep 'cpu cores'|uniq|sed -e 's/.*://'` \
 	&& git clone https://github.com/plumed/plumed2.git \
-	&& cd plumed2 \
-	&& git checkout ${PL_VER} \
-	&& ./configure CXXFLAGS=-O3 \
-	&& make -j $((2*GR_CORES)) \
-        && make install
+	&& ( cd plumed2 ;
+	        git checkout ${PL_VER}; \
+	       ./configure CXXFLAGS=-O3; \
+	       make -j $((2*GR_CORES)) ;\
+               make install ) \
 
 #
 # Second : setup GROMACS
 #
-RUN 	wget http://ftp.gromacs.org/pub/gromacs/gromacs${GR_VER}.tar.gz \
+	&& wget http://ftp.gromacs.org/pub/gromacs/gromacs${GR_VER}.tar.gz \
 	&& tar xfz gromacs${GR_VER}.tar.gz \
 	&& cd gromacs${GR_VER}  \
 	&& plumed patch -p -e gromacs${GR_VER} \
-	&& GR_CORES=`cat /proc/cpuinfo |grep 'cpu cores'|uniq|sed -e 's/.*://'` \
 	&& for item in $GR_SIMD; do \
 		mkdir -p build-"$item" ; \
 		(cd build-"$item"; cmake .. \
