@@ -77,7 +77,7 @@ WORKDIR "$GR_HD"
 #
 RUN     GR_CORES=`cat /proc/cpuinfo |grep 'cpu cores'|uniq|sed -e 's/.*://'` \
 	&& git clone https://github.com/plumed/plumed2.git \
-	&& ( cd plumed2 ;
+	&& ( cd plumed2 ; \
 	        git checkout ${PL_VER}; \
 	       ./configure CXXFLAGS=-O3; \
 	       make -j $((2*GR_CORES)) ;\
