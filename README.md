@@ -8,7 +8,7 @@ This container contains both sources and parallel binaries.
 
 1. Locally : simply type
 ```
-$ docker run -u gromed -it rinnocente/gromed-ts-tutorial-2017 /bin/bash 
+$ docker run -it rinnocente/gromed-ts-tutorial-2017 /bin/bash 
 ```
 
 2. Locally or remotely via ssh
