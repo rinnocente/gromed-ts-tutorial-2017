@@ -57,7 +57,7 @@ RUN apt install -yq vim \
 #
 # we create the user 'gromed' and add it to the list of sudoers
 RUN  adduser -q --disabled-password --gecos gromed gromed  \
-	&& echo "gromed ALL=(ALL:ALL) NOPASSWD:ALL" >>/etc/sudoers  \
+	&& echo "\ngromed ALL=(ALL:ALL) NOPASSWD:ALL" >>/etc/sudoers.d/gromed  \
 	&& (echo "gromed:mammamia"|chpasswd)
 #
 # disable  ssh strict mode
@@ -117,8 +117,9 @@ WORKDIR /home/gromed
 #
 EXPOSE 22
 #
+USER gromed
 #
 # the container can be now reached via ssh
-CMD [ "/usr/sbin/sshd","-D" ]
+CMD [ "sudo","/usr/sbin/sshd","-D" ]
 
 
