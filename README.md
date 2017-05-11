@@ -29,11 +29,11 @@ Change the password, that initially is set to *mammamia* , with the **passwd** c
 
 ### Use of vector instruction sets (SIMD)
 
-By default the binary and libraries of gromacs installed are compiled for the SSE2 simd instructions, 
-that by now, should be supported by everything (and this means also virtual machines).
+By default the installed binary and libraries of gromacs  are compiled for the SSE2 simd instructions, 
+that by now, should be supported by everything.
 If you have a more perfomant SIMD instruction set like 
 **SSE4.1 AVX_256 AVX2_256 AVX_512**
-then you can compile and install in an easy way a better suited version :
+ you can compile and install in an easy way a better suited version :
 ```
 cd gromacs-2016.3
 bash tune-gromacs.sh
