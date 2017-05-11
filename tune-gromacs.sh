@@ -30,7 +30,7 @@ then
      GR_CORES=`cat /proc/cpuinfo |grep 'cpu cores'|uniq|sed -e 's/.*://'`
      mkdir -p build-"$compile_flag" ; \
      (cd build-"$compile-flag"; cmake .. \
-	 -DGMX_SIMD="$compile-flag" -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx  \
+	 -DGMX_SIMD="$compile_flag" -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx  \
 	 -DGMX_THREAD_MPI:BOOL=OFF -DGMX_MPI:BOOL=ON ; make -j $((2*GR_CORES)); \
      (cd build-"$compile_flag" ; make install)) \
 fi
