@@ -28,16 +28,17 @@ in this way (-P) the std ssh port (=22) is mapped on a free port of the host. We
 Change the password, that initially is set to *mammamia* , with the **passwd** command.
 
 ### Use of vector instruction sets (SIMD)
-Different binaries and libraries have been compiled for some of the SIMD instruction sets :
-**None SSE2 SSE4.1 AVX_256 AVX2_256 AVX_512** each in different build subdirs of gromacs-2016.3.
-By default the binary and libraries compiled with SSE2, that should be supported by now by everything,
-has been installed.
-A script can eventually install a more performant version automatically :
+
+By default the binary and libraries of gromacs installed are compiled for the SSE2 simd instructions, 
+that by now, should be supported by everything (and this means also virtual machines).
+If you have a more perfomant SIMD instruction set like 
+**SSE4.1 AVX_256 AVX2_256 AVX_512**
+then you can compile and install in an easy way a better suited version :
 ```
 cd gromacs-2016.3
 bash tune-gromacs.sh
 ```
-this script uses sudo and therefore the password is required.
+this script uses sudo to install gromacs.
 
 ### Tree of directories in /home/gromed :
 
@@ -46,12 +47,7 @@ this script uses sudo and therefore the password is required.
 |-- downloads
 |-- gromacs-5.1.4
 |   |-- admin
-|   |-- build-AVX2_256
-|   |-- build-AVX_256
-|   |-- build-AVX_512
-|   |-- build-None
 |   |-- build-SSE2
-|   |-- build-SSE4.1
 |   |-- cmake
 |   |-- docs
 |   |-- scripts
