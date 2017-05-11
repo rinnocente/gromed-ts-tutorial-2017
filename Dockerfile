@@ -1,7 +1,9 @@
 #
 # GROMED : GRO[macs] + [plu]MED
 #
-# For many reasons we need to fix the ubuntu release:
+# For many reasons we need to fix the ubuntu release
+# this version underwent the apt update; apt upgrade ; apt install ..
+# torture 
 FROM rinnocente/ubuntu-17.04-homebrewed
 #
 MAINTAINER roberto innocente <inno@sissa.it>
@@ -13,47 +15,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 #ARG GR_SIMD="None SSE2 SSE4.1 AVX_256 AVX2_256 AVX_512"
 ARG GR_SIMD="None SSE2 SSE4.1 AVX_256 AVX2_256"
 #
-# we update the apt database
-#
-RUN  apt-get -yq update 
-#
-# we install vim openssh, sudo, wget, gfortran, openblas, blacs,
-# fftw3, openmpi , ...
-# and run ssh-keygen -A to generate all possible keys for the host
-#
-RUN apt install -yq vim \
-		git \
-		cmake \
- 		openssh-server  \
- 		sudo  \
- 		wget  \
-         	ca-certificates  \
-		g++ \
-		gnuplot \
-		xxdiff \
-		gawk \
-         	libopenblas-base  \
-         	libopenblas-dev  \
- 		openmpi-bin   \
-         	libfftw3-3  \
- 		libfftw3-bin  \
-  		libfftw3-dev  \
-         	libfftw3-double3   \
- 		libblacs-openmpi1  \
- 		libblacs-mpi-dev  \
-		libmatheval1 \
-		libmatheval-dev \
- 		net-tools  \
- 		make  \
- 		autoconf  \
- 		libopenmpi-dev  \
- 		libgfortran-6-dev  \
- 		gfortran-6  \
-                python3-numpy \
-                python3-scipy \
-                zlib1g zlib1g-dev \
-	&& apt autoremove \
-	&& ssh-keygen -A
+
 #
 # we create the user 'gromed' and add it to the list of sudoers
 RUN  adduser -q --disabled-password --gecos gromed gromed  \
