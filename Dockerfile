@@ -112,7 +112,6 @@ COPY	tune-gromacs.sh ${GR_HD}/gromacs${GR_VER}/
 #
 RUN	chown -R gromed:gromed /home/gromed
 #
-WORKDIR /home/gromed
 #
 EXPOSE 22
 #
