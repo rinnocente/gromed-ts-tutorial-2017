@@ -74,8 +74,7 @@ ENV     GR_HD="/home/gromed" \
 #
 # First : setup PLUMED
 #
-RUN     cd ${GR_HD} \
-	&& GR_CORES=`cat /proc/cpuinfo |grep 'cpu cores'|uniq|sed -e 's/.*://'` \
+RUN     GR_CORES=`cat /proc/cpuinfo |grep 'cpu cores'|uniq|sed -e 's/.*://'` \
 	&& git clone https://github.com/plumed/plumed2.git \
 	&& cd plumed2 \
 	&& git checkout ${PL_VER} \
