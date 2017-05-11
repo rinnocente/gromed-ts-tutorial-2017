@@ -88,14 +88,14 @@ RUN     GR_CORES=`cat /proc/cpuinfo |grep 'cpu cores'|uniq|sed -e 's/.*://'` \
 #
 	&& wget http://ftp.gromacs.org/pub/gromacs/gromacs${GR_VER}.tar.gz \
 	&& tar xfz gromacs${GR_VER}.tar.gz \
-	&& cd gromacs${GR_VER}  \
-	&& plumed patch -p -e gromacs${GR_VER} \
-	&& for item in $GR_SIMD; do \
-		mkdir -p build-"$item" ; \
-		(cd build-"$item"; cmake .. \
-			-DGMX_SIMD="$item" -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx  \
-			-DGMX_THREAD_MPI:BOOL=OFF -DGMX_MPI:BOOL=ON ; make -j $((2*GR_CORES)) ); \
-	   done \
+	&& ( cd gromacs${GR_VER} ; \
+	        plumed patch -p -e gromacs${GR_VER} ; \
+	        for item in $GR_SIMD; do \
+		     mkdir -p build-"$item" ; \
+		     (cd build-"$item"; cmake .. \
+			 -DGMX_SIMD="$item" -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx  \
+			 -DGMX_THREAD_MPI:BOOL=OFF -DGMX_MPI:BOOL=ON ; make -j $((2*GR_CORES)) ); \
+	        done ) \
 	&&  (cd build-SSE2; make install) \
 	&&  echo "export PATH=/usr/local/gromacs/bin:${PATH}" >>${GR_HD}/.bashrc \
 	&&  echo "source /usr/local/gromacs/bin/GMXRC" >>${GR_HD}/.bashrc
