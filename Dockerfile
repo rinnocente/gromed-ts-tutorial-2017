@@ -13,9 +13,10 @@ ARG DEBIAN_FRONTEND=noninteractive
 #
 # gromacs-5.1.4 gets crazy with AVX_512 flag, removed
 #ARG GR_SIMD="None SSE2 SSE4.1 AVX_256 AVX2_256 AVX_512"
-ARG GR_SIMD="None SSE2 SSE4.1 AVX_256 AVX2_256"
-#
-
+# Automatic builds on docker cloud cant compile all these
+# versions. We leave only SSE2
+#ARG GR_SIMD="None SSE2 SSE4.1 AVX_256 AVX2_256"
+ARG  GR_SIMD="SSE2"
 #
 # we create the user 'gromed' and add it to the list of sudoers
 RUN  adduser -q --disabled-password --gecos gromed gromed  \
