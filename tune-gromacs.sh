@@ -5,6 +5,7 @@
 #
 declare -a intel_cpu_flags_list=(mmx sse sse2 sse3 ssse3 atom_ssse3 sse4.1 sse4.2 atom_sse4.2 avx avx2 avx.512)
 #
+#
 tmpfile=`mktemp `
 for i in "${intel_cpu_flags_list[@]}"
 do
@@ -24,6 +25,14 @@ do
 	        compile_flag="${gromacs_flags_list[$i-1]}"
 	fi
 done
+if [ ! -d build-"$compile_flag" ]
+then
+     mkdir -p build-"$compile-flag" ; \
+     (cd build-"$compile-flag"; cmake .. \
+	 -DGMX_SIMD="$compile-flag" -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx  \
+	 -DGMX_THREAD_MPI:BOOL=OFF -DGMX_MPI:BOOL=ON ; make -j $((2*GR_CORES)) ); \
+     (cd build-"$compile_flag" ; make install)) \
+fi
 cd build-"$compile_flag"
 sudo make install
 
