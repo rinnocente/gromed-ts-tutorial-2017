@@ -2,7 +2,7 @@
 # GROMED : GRO[macs] + [plu]MED
 #
 # For many reasons we need to fix the ubuntu release:
-FROM ubuntu:17.04
+FROM rinnocente/ubuntu-17.04-homebrewed
 #
 MAINTAINER roberto innocente <inno@sissa.it>
 #
