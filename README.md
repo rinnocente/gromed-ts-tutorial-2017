@@ -35,7 +35,7 @@ If you have a more perfomant SIMD instruction set like
 **SSE4.1 AVX_256 AVX2_256 AVX_512**
  you can compile and install in an easy way a better suited version :
 ```
-cd gromacs-2016.3
+cd gromacs-5.1.4
 bash tune-gromacs.sh
 ```
 this script uses sudo to install gromacs.
